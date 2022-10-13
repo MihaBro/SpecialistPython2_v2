@@ -1,7 +1,35 @@
 class Account:
-    # TODO-0: скопируйте реализацию из предыдущего решения
+    def __init__(self, name: str, passport: str, phone_number: str, start_balance: int = 0):
+        self.__name = name
+        self.__passport = passport
+        self.__phone_number = phone_number
+        self.__balance = start_balance
+
+    def full_info(self) -> str:
+        return f'{self.__name} баланс: {self.__balance} руб. паспорт: {self.__passport} т.{self.__phone_number}'
+
+    def __repr__(self) -> str:
+        return f'{self.__name} баланс: {self.__balance} руб.'
+
+    @property
+    def balance(self) -> int:
+        return f'{self.__balance} руб.'
+
+    def deposit(self, amount: int) -> None:
+        self.__balance += amount
+
+    def withdraw(self, amount: int) -> None:
+        """
+        Снятие суммы с текущего счета
+        :param amount: сумма
+        """
+        if self.__balance - amount < 0:
+            raise ValueError('Недостаточно средств')
+        else:
+            self.__balance -= amount
 
     # TODO-1: напишите реализацию метода transfer()
+
     def transfer(self, target_account: 'Account', amount: int) -> None:
         """
         Перевод денег на счет другого клиента
@@ -9,7 +37,12 @@ class Account:
         :param amount: сумма перевода
         :return:
         """
-        pass
+        if self.__balance - amount < 0:
+            raise ValueError('Недостаточно средств')
+        self.__balance -= amount
+        target_account.__balance += amount
+
+
 
 
 account1 = Account("Иван", "3230 634563", "+7-900-765-12-34", 1000)
